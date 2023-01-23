@@ -30,6 +30,7 @@ class local_news_form extends moodleform {
 
     public function definition() {
         $mform    = $this->_form; // Don't forget the underscore!
+
         global $DB;
         $mform->addElement('textarea', 'newstitle', get_string('newstitle_form', 'local_news')); // Add elements to your form.
         $mform->setType('newstitle', PARAM_TEXT); // Set type of element.
@@ -37,6 +38,7 @@ class local_news_form extends moodleform {
         $mform->setType('newscontent', PARAM_TEXT); // Set type of element.
         $records=$DB->get_records('local_news_categories');
         $categories=array();
+
 
         foreach($records as $record)
         {
@@ -49,6 +51,10 @@ class local_news_form extends moodleform {
 
         $submitlabel = get_string('submit');
         $mform->addElement('submit', 'submitmessage', $submitlabel);
+
+    }
+    public function getMyObject(){
+        return $this->_form;
 
     }
 }

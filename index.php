@@ -43,6 +43,23 @@ $sql = "SELECT m.id, m.title,m.content, m.timecreated, m.categoryid, u.category_
               FROM {local_news} m  LEFT JOIN {local_news_categories} u 
               ON u.id = m.categoryid ORDER BY timecreated DESC";
 $news = $DB->get_records_sql($sql);
+$action = optional_param('action', '', PARAM_TEXT);
+if ($action == 'del') {
+    require_sesskey();
+
+    $id = required_param('id', PARAM_TEXT);
+
+
+        $params = array('id' => $id);
+
+        // Users without permission should only delete their own post.
+
+
+        // TODO: Confirm before deleting.
+        $DB->delete_records('local_news', $params);
+
+        redirect($PAGE->url);
+    }
 
 echo $OUTPUT->header();
 //print_r($messages);
@@ -60,6 +77,24 @@ foreach ($news as $m) {
     echo html_writer::end_tag('p');
     echo html_writer::start_tag('p', array('class' => 'card-text'));
     echo html_writer::tag('small', format_text($m->categoryid, FORMAT_PLAIN), array('class' => 'text-muted '));
+    echo html_writer::end_tag('p');
+    echo html_writer::start_tag('p', array('class' => 'card-footer text-center'));
+    echo html_writer::link(
+        new moodle_url(
+            '/local/news/index.php',
+            array('action' => 'del', 'id' => $m->id, 'sesskey' => sesskey())
+        ),
+        $OUTPUT->pix_icon('t/delete', '') . get_string('delete')
+    );
+    echo html_writer::end_tag('p');
+    echo html_writer::start_tag('p', array('class' => 'card-footer text-center'));
+    echo html_writer::link(
+        new moodle_url(
+            '/local/news/edit_news.php',
+            array('action' => 'edit', 'id' => $m->id, 'sesskey' => sesskey())
+        ),
+        $OUTPUT->pix_icon('t/edit', '') . get_string('edit')
+    );
     echo html_writer::end_tag('p');
 
 //    if ($deleteanypost || ($deletepost && $m->userid == $USER->id)) {
