@@ -35,39 +35,51 @@ $PAGE->set_url(new moodle_url('/local/news/create_news.php'));
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title($SITE->fullname);
 $PAGE->set_heading(get_string('pluginname', 'local_news'));
-$classform=new local_news_form();
-$objectform = $classform->getMyObject();
-;
-$sql = "SELECT m.id, m.title,m.content, m.timecreated, m.categoryid, u.category_name
-              FROM {local_news} m  LEFT JOIN {local_news_categories} u 
-              ON u.id = m.categoryid WHERE m.id=?";
-$id = required_param('id', PARAM_TEXT);
-$news = $DB->get_record_sql($sql,array($id));
-$objectform->setDefault('newstitle',$news->title);
+//$action= optional_param('action','', PARAM_TEXT);
 
-//if($data = $newsform->get_data()) {
-////    require_capability('local/greetings:postmessages', $context);
-//
-//    $titlenews = required_param('newstitle', PARAM_TEXT, value);
-//    $contentnews = required_param('newscontent', PARAM_TEXT);
-//    $selectedcategory = required_param('selectedcategory', 	PARAM_TEXT);
-//
-//    if (!empty($titlenews)&&!empty($contentnews)&&!empty($selectedcategory)) {
-//
-//        $record = new stdClass;
-//        $record->title = $titlenews;
-//        $record->content = $contentnews;
-//        $record->categoryid =$selectedcategory;
-//
-//        $record->timecreated = time();
-//
-//        $DB->insert_record('local_news', $record);
-//
-//    }
-//}
+
+    $idnews = required_param('id',PARAM_INT);
+    $titlenews = optional_param('title', '',PARAM_TEXT);
+    $contentnews = optional_param('content','', PARAM_TEXT);
+    $selectedcategory = optional_param('categoryid','',PARAM_TEXT);
+
+$classform=new local_news_form();
+$classform->getMyObject()->setDefault('newstitle',$titlenews);
+$classform->getMyObject()->setDefault('newscontent',$contentnews);
+$classform->getMyObject()->setDefault('selectedcategory',$selectedcategory);
+$classform->getMyObject()->setDefault('id',$idnews);
+
+if($data = $classform->get_data()) {
+//    require_capability('local/greetings:postmessages', $context);
+//    $idnews = required_param('id', PARAM_INT);
+    $titlenews1 = required_param('newstitle', PARAM_TEXT);
+    $contentnews1 = required_param('newscontent', PARAM_TEXT);
+    $selectedcategory1 = required_param('selectedcategory', PARAM_TEXT);
+//    $id = required_param('id', PARAM_TEXT);
+
+    if (!empty($titlenews1) && !empty($contentnews1) && !empty($selectedcategory1)) {
+
+        $record = new stdClass;
+        $record->id = $idnews;
+        $record->title = $titlenews1;
+        $record->content = $contentnews1;
+        $record->categoryid = $selectedcategory1;
+
+        $record->timecreated = time();
+
+        $DB->update_record('local_news', $record);
+
+    }
+}
+
+
 
 
 echo $OUTPUT->header();
 $classform->display();
 
+//print($idnews);
+//print( $classform->get_data());
+echo $idnews;
+echo $titlenews;
 echo $OUTPUT->footer();

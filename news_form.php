@@ -36,7 +36,9 @@ class local_news_form extends moodleform {
         $mform->setType('newstitle', PARAM_TEXT); // Set type of element.
         $mform->addElement('textarea', 'newscontent', get_string('newscontent_form', 'local_news'),array('rows'=>10,'col'=>100)); // Add elements to your form.
         $mform->setType('newscontent', PARAM_TEXT); // Set type of element.
+        $mform->addElement("hidden",'id');
         $records=$DB->get_records('local_news_categories');
+
         $categories=array();
 
 
@@ -45,6 +47,7 @@ class local_news_form extends moodleform {
             $categories[$record->id]=$record->category_name;
         }
         $mform->addElement('select', 'selectedcategory','dropdown',$categories); // Add elements to your form.
+
         // Set type of element.
 
 

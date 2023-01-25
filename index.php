@@ -78,11 +78,14 @@ foreach ($news as $m) {
     echo html_writer::start_tag('p', array('class' => 'card-text'));
     echo html_writer::tag('small', format_text($m->categoryid, FORMAT_PLAIN), array('class' => 'text-muted '));
     echo html_writer::end_tag('p');
+    echo html_writer::start_tag('p', array('class' => 'card-text'));
+    echo html_writer::tag('small', format_text($m->id, FORMAT_PLAIN), array('class' => 'text-muted '));
+    echo html_writer::end_tag('p');
     echo html_writer::start_tag('p', array('class' => 'card-footer text-center'));
     echo html_writer::link(
         new moodle_url(
             '/local/news/index.php',
-            array('action' => 'del', 'id' => $m->id, 'sesskey' => sesskey())
+            array('action' => 'del', 'id1' => $m->id, 'sesskey' => sesskey())
         ),
         $OUTPUT->pix_icon('t/delete', '') . get_string('delete')
     );
@@ -91,7 +94,7 @@ foreach ($news as $m) {
     echo html_writer::link(
         new moodle_url(
             '/local/news/edit_news.php',
-            array('action' => 'edit', 'id' => $m->id, 'sesskey' => sesskey())
+            array('action' => 'edit', 'id' => $m->id,'title' => $m->title,'content' => $m->content,'categoryid' => $m->categoryid,'category_name' => $m->category_name, 'sesskey' => sesskey())
         ),
         $OUTPUT->pix_icon('t/edit', '') . get_string('edit')
     );
