@@ -33,7 +33,7 @@ function local_news_extend_navigation_frontpage(navigation_node $frontpage) {
 
             $frontpage->add(
                 get_string('pluginname', 'local_news'),
-                new moodle_url('/local/news/create_category.php'),
+                new moodle_url('/local/news/index.php'),
                 navigation_node::TYPE_CUSTOM,
                 null,
                 null,

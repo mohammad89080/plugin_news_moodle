@@ -85,7 +85,7 @@ foreach ($news as $m) {
     echo html_writer::link(
         new moodle_url(
             '/local/news/index.php',
-            array('action' => 'del', 'id1' => $m->id, 'sesskey' => sesskey())
+            array('action' => 'del', 'id' => $m->id, 'sesskey' => sesskey())
         ),
         $OUTPUT->pix_icon('t/delete', '') . get_string('delete')
     );
