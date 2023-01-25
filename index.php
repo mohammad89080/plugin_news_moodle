@@ -100,19 +100,11 @@ foreach ($news as $m) {
     );
     echo html_writer::end_tag('p');
 
-//    if ($deleteanypost || ($deletepost && $m->userid == $USER->id)) {
-//        echo html_writer::start_tag('p', array('class' => 'card-footer text-center'));
-////        echo html_writer::link(
-////            new moodle_url(
-////                '/local/greetings/index.php',
-////                array('action' => 'del', 'id' => $m->id, 'sesskey' => sesskey())
-////            ),
-////            $OUTPUT->pix_icon('t/delete', '') . get_string('delete')
-////        );
-//        echo html_writer::end_tag('p');
-//    }
 
     echo html_writer::end_tag('div');
     echo html_writer::end_tag('div');
 }
+
+echo html_writer::link(new moodle_url('/local/news/create_category.php'), 'Create Category', array('class' => 'btn btn-primary'));
+echo html_writer::link(new moodle_url('/local/news/create_news.php'), 'Create News', array('class' => 'btn btn-primary'));
 echo $OUTPUT->footer();
