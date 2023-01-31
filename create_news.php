@@ -42,33 +42,38 @@ if($data = $newsform->get_data()) {
     $titlenews = required_param('newstitle', PARAM_TEXT);
     $contentnews = required_param('newscontent', PARAM_TEXT);
     $selectedcategory = required_param('selectedcategory', 	PARAM_TEXT);
+    $file = $newsform->get_new_filename('image');
+    $fullpath = "upload/". time().$file;
+    $success = $newsform->save_file('image', $fullpath,true);
+    // echo $fullpath; die;
+    if(!$success){
+        echo "Oops! something went wrong!";
+    }
+//    $data->file_path   = $fullpath;
 
+    // redirect($redirect, 'Record have been added successfully.', null, \core\output\notification::NOTIFY_SUCCESS);
+
+    // id, email, added_time, added_by
+
+
+
+    // Store the image information in the database
+    // ...
     if (!empty($titlenews)&&!empty($contentnews)&&!empty($selectedcategory)) {
 
         $record = new stdClass;
         $record->title = $titlenews;
         $record->content = $contentnews;
         $record->categoryid =$selectedcategory;
+        $record->image=$fullpath;
 
         $record->timecreated = time();
 
         $DB->insert_record('local_news', $record);
 
     }
-
-
-
-//    if (!empty($category)) {
-//        $record = new stdClass;
-//        $record->category_name = $category;
-//        $record->timecreated = time();
-//
-//
-//        $DB->insert_record('local_news_categories', $record);
-//
-//    }
-
 }
+
 
 
 echo $OUTPUT->header();

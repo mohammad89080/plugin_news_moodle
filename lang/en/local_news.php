@@ -30,3 +30,5 @@ $string['yourmessage']='Enter The Category';
 $string['newstitle_form']="Enter The News Title";
 $string['newscontent_form']="Enter The News Content";
 $string['head_list_news']="News List";
+$string['image']='Add Image';
+$string['upload']='Upload';
