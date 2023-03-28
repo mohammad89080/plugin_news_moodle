@@ -38,22 +38,21 @@ $PAGE->set_heading(get_string('pluginname', 'local_news'));
 $newsform = new local_news_form();
 if($data = $newsform->get_data()) {
 //    require_capability('local/greetings:postmessages', $context);
-
     $titlenews = required_param('newstitle', PARAM_TEXT);
     $contentnews = required_param('newscontent', PARAM_TEXT);
     $selectedcategory = required_param('selectedcategory', 	PARAM_TEXT);
     $file = $newsform->get_new_filename('image');
+
     $fullpath = "upload/". time().$file;
+//    $fullpath = "upload/".$file;
+//    $fullpath = time().$file;
+
     $success = $newsform->save_file('image', $fullpath,true);
     // echo $fullpath; die;
     if(!$success){
         echo "Oops! something went wrong!";
     }
-//    $data->file_path   = $fullpath;
 
-    // redirect($redirect, 'Record have been added successfully.', null, \core\output\notification::NOTIFY_SUCCESS);
-
-    // id, email, added_time, added_by
 
 
 
@@ -65,13 +64,15 @@ if($data = $newsform->get_data()) {
         $record->title = $titlenews;
         $record->content = $contentnews;
         $record->categoryid =$selectedcategory;
-        $record->image=$fullpath;
+        $record->image= time().$file;
+//        $record->image= $file;
 
         $record->timecreated = time();
 
         $DB->insert_record('local_news', $record);
 
     }
+    redirect($CFG->wwwroot.'/local/news/index.php','The story has been created successfully');
 }
 
 

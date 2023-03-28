@@ -30,13 +30,14 @@ defined('MOODLE_INTERNAL') || die();
  * @param navigation_node $frontpage Node representing the front page in the navigation tree.
  */
 function local_news_extend_navigation_frontpage(navigation_node $frontpage) {
-
+    global $OUTPUT;
             $frontpage->add(
-                get_string('pluginname', 'local_news'),
+                $OUTPUT->pix_icon('t/message', '') .get_string('pluginname', 'local_news'),
                 new moodle_url('/local/news/index.php'),
                 navigation_node::TYPE_CUSTOM,
                 null,
                 null,
                 new pix_icon('t/message', '')
+
             );
 }

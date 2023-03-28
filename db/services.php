@@ -22,11 +22,36 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_news';
-$plugin->release = '0.1.0';
-$plugin->version = 2023012000;
-$plugin->requires = 2021051700;
-$plugin->maturity = MATURITY_ALPHA;
-$functions = array('moodlews_get_categories', 'moodlews_get_news');
+defined('MOODLE_INTERNAL') || die();
+$functions = array(
+
+    'local_news_get_news' => array(
+        'classname' => 'local_news_service_external',
+        'methodname' => 'get_news',
+        'classpath' => 'local/news/externallib.php',
+        'description' => ' get_news',
+        'type' => 'read',
+        'ajax' => true,
+    ),
+    'local_news_get_categories' => array(
+        'classname' => 'local_custom_service_external',
+        'methodname' => 'get_category',
+        'classpath' => 'local/news/externallib.php',
+        'description' => 'get_category',
+        'type' => 'read',
+        'ajax' => true,
+    )
+);
+
+$services = array(
+    'My service' => array(
+        'functions' => array(
+            'local_news_get_news',
+            'local_news_get_categories'
+        ),
+        'restrictedusers' => 0,
+        'enabled' => 1,
+        'shortname'=>'custom_web_services'
+    )
+);

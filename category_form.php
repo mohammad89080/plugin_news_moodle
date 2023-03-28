@@ -29,8 +29,24 @@ class local_news_category_form extends moodleform {
      * Define the form.
      */
     public function definition() {
+        global $DB;
         $mform    = $this->_form; // Don't forget the underscore!
+        //fields Sub-Categories
+        $sql = "SELECT id, category_name FROM {local_news_categories}  WHERE parent_id IS NULL";
+        $records = $DB->get_records_sql($sql);
+//        $records=$DB->get_records('local_news_categories');
 
+        $categories=array();
+
+        $categories[]='null';
+        foreach($records as $record)
+        {
+            $categories[$record->id]=$record->category_name;
+        }
+        $mform->addElement('select', 'selectedcategory',get_string('choosecategory','local_news'),$categories); // Add elements to your form.
+        $mform->setDefault('selectedsubcategory','null');
+
+        //fields Categories
         $mform->addElement('textarea', 'namecategory', get_string('yourmessage', 'local_news')); // Add elements to your form.
         $mform->setType('namecategory', PARAM_TEXT); // Set type of element.
 

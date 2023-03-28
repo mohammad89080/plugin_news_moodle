@@ -38,13 +38,25 @@ $PAGE->set_heading(get_string('pluginname', 'local_news'));
 $categoryform = new local_news_category_form();
 if($data = $categoryform->get_data()) {
 //    require_capability('local/greetings:postmessages', $context);
-
+    $selectcategory = required_param('selectedcategory', PARAM_INT);
     $category = required_param('namecategory', PARAM_TEXT);
+
 
     if (!empty($category)) {
         $record = new stdClass;
-        $record->category_name = $category;
-        $record->timecreated = time();
+        if($selectcategory=='0')
+        {
+            $record->category_name = $category;
+            $record->timecreated = time();
+        }else
+        {
+            $record->category_name = $category;
+            $record->parent_id = $selectcategory;
+            $record->timecreated = time();
+
+        }
+
+
 
 
             $DB->insert_record('local_news_categories', $record);
